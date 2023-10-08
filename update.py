@@ -3,7 +3,7 @@ import shutil
 
 # Ensure to backup your project before running this script
 
-# Directories to organize files
+# Directories and files to organize and create
 directories = {
     "BusinessLayer": ["ai_tasks.py", "ai_goals.py", "ai_errors.py"],
     "DataLayer": ["ai_data_read.py", "ai_data_write.py"],
@@ -11,14 +11,30 @@ directories = {
     "CommonLayer": ["ai_xml_read.py", "ai_xml_write.py"]
 }
 
-# Create directories and move files
+# Basic template for Python files
+python_template = """\"\"\"
+This is a template Python file for the AI Agent project.
+\"\"\"
+
+def main():
+    pass
+
+if __name__ == "__main__":
+    main()
+"""
+
+# Create directories and files
 for dir_name, files in directories.items():
     os.makedirs(dir_name, exist_ok=True)
     for file_name in files:
-        if os.path.exists(file_name):  # Check if file exists before moving
-            shutil.move(file_name, os.path.join(dir_name, file_name))
+        file_path = os.path.join(dir_name, file_name)
+        # Create file with basic template if it does not exist
+        if not os.path.exists(file_path):
+            with open(file_path, "w") as f:
+                f.write(python_template)
+            print(f"Created: {file_path}")
         else:
-            print(f"Warning: {file_name} does not exist and was not moved.")
+            print(f"Exists: {file_path}")
 
 # Initialize Git if not already done
 if not os.path.exists(".git"):
