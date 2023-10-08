@@ -1,65 +1,78 @@
 # update.py
 
 import os
-import time
+import shutil
 
-# Updating the ai_main.py with improved stopping mechanism
-ai_main_code = """
+# Ensure to backup your project before running this script
+
+# Creating main_loop.py with the main loop function
+main_loop_code = """
+import time
 import threading
-import time
 
-def main_loop(stop_event):
-    while not stop_event.is_set():
-        # Your main loop code here
-        print("|", end="", flush=True)
-        for _ in range(60):  # Check the stop event every second for a minute
-            if stop_event.is_set():
-                break
-            time.sleep(1)
-
-def management_tasks(stop_event):
-    while not stop_event.is_set():
-        # Your management tasks code here
-        print("/", end="", flush=True)
-        for _ in range(30):  # Check the stop event every second for 30 seconds
-            if stop_event.is_set():
-                break
-            time.sleep(1)
-
-def start_ai():
-    stop_event = threading.Event()
-    main_thread = threading.Thread(target=main_loop, args=(stop_event,))
-    management_thread = threading.Thread(target=management_tasks, args=(stop_event,))
-
-    main_thread.start()
-    management_thread.start()
-
+def main_loop(task_processor_func):
     try:
+        print("|/", end="", flush=True)
         while True:
-            user_input = input("\\nYou can type 'stop' to stop AI Main: ")
-            if user_input.lower() == 'stop':
-                print("Stopping AI Main...")
-                stop_event.set()
-                break
+            # Your main loop code here
+            # ...
+            # Call the task processor function
+            task_processor_func()
+            time.sleep(1)
+            print("\\r|", end="", flush=True)
+            time.sleep(1)
+            print("\\r/", end="", flush=True)
     except KeyboardInterrupt:
-        print("Stopping AI Main...")
-        stop_event.set()
-
-    main_thread.join()
-    management_thread.join()
-
-if __name__ == "__main__":
-    start_ai()
+        print("\\nStopping AI Main...")
 """
 
-# Writing the updated code to ai_main.py
+with open("main_loop.py", "w") as file:
+    file.write(main_loop_code)
+
+# Creating task_processor.py with a placeholder function for task processing
+task_processor_code = """
+def process_tasks():
+    # Placeholder for task processing logic
+    pass
+"""
+
+with open("task_processor.py", "w") as file:
+    file.write(task_processor_code)
+
+# Modifying ai_main.py to utilize main_loop and task_processor
+ai_main_code = """
+from main_loop import main_loop
+from task_processor import process_tasks
+
+# Calling the main loop function with the task processor function as an argument
+main_loop(process_tasks)
+"""
+
 with open("ai_main.py", "w") as file:
     file.write(ai_main_code)
 
+# Organizing files into respective directories
+# Note: Adjust the file names and directory names as per your project structure
+directories = {
+    "BusinessLayer": ["ai_task_processor.py", "ai_tasks.xml", "ai_goals.py", "ai_errors.py"],
+    "DataLayer": ["ai_data_read.py", "ai_data_write.py", "ai_error.xml", "ai_task.txt", "ai_tasks.xml", "goals.xml", "metrics.xml", "q_and_a.xml", "questions.xml", "turk.xml"],
+    "PresentationLayer": ["ai_interface.py"],
+    "CommonLayer": ["ai_xml_read.py", "ai_xml_write.py", "ai_chatgpt.py", "ai_error_handler.py", "ai_xml_handler.py"]
+}
+
+# Move files to their respective directories
+for dir_name, files in directories.items():
+    os.makedirs(dir_name, exist_ok=True)
+    for file_name in files:
+        if os.path.exists(file_name):
+            shutil.move(file_name, os.path.join(dir_name, file_name))
+        else:
+            print(f"Warning: {file_name} does not exist and was not moved.")
+
 # Git commands to add, commit, and push changes to GitHub
 os.system("git add .")
-os.system('git commit -m "Improved stopping mechanism in ai_main.py"')
+os.system('git commit -m "Refactoring: Organized files and created main_loop.py and task_processor.py"')
 os.system("git push origin main")
 
 # Informing the user about the update completion
-print("Update completed! The stopping mechanism in ai_main.py has been improved and pushed to GitHub.")
+print("Update completed! Files have been organized, and main_loop.py and task_processor.py have been created and utilized in ai_main.py.")
