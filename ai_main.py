@@ -1,70 +1,47 @@
 
 import threading
 import time
-import openai
-import xml.etree.ElementTree as ET
+import sys
 
-# Your OpenAI API key here
-openai.api_key = 'YOUR-OPENAI-API-KEY'
-
-def interact_with_chatgpt(prompt):
-    try:
-        response = openai.Completion.create(
-            engine="davinci",
-            prompt=prompt,
-            max_tokens=60
-        )
-        return response.choices[0].text.strip()
-    except Exception as e:
-        return str(e)
-
-def read_xml(file_path):
-    try:
-        tree = ET.parse(file_path)
-        root = tree.getroot()
-        return root
-    except Exception as e:
-        return str(e)
-
-def write_xml(root, file_path):
-    try:
-        tree = ET.ElementTree(root)
-        tree.write(file_path)
-        return "Success"
-    except Exception as e:
-        return str(e)
-
-def process_tasks():
-    # Your task processing logic here
-    pass
-
-def user_interaction():
-    # Your user interaction logic here
-    pass
+def spinning_cursor():
+    while not stop_event.is_set():
+        for cursor in '\|/-':
+            sys.stdout.write(cursor)
+            sys.stdout.flush()
+            time.sleep(0.1)
+            sys.stdout.write('\r')
 
 def main_loop():
-    while True:
-        print("Processing tasks...")
-        process_tasks()
-        time.sleep(600)  # 10 minutes sleep
+    while not stop_event.is_set():
+        # Your main loop logic here
+        time.sleep(2)  # Using ChatGPT 3.5 every 2 seconds
 
 def check_stop():
     while True:
-        user_input = input("You can type 'stop' to stop AI Main: ")
+        user_input = input("\nYou can type 'stop' to stop AI Main: ")
         if user_input.strip().lower() == 'stop':
             print("Stopping AI Main...")
+            stop_event.set()
             break
-        time.sleep(1)
 
-def main():
-    t1 = threading.Thread(target=main_loop)
-    t2 = threading.Thread(target=check_stop)
+def management_tasks():
+    while not stop_event.is_set():
+        # Your management and verification logic here
+        time.sleep(60)  # Using ChatGPT 4.0 every 60 seconds
 
-    t1.start()
-    t2.start()
+stop_event = threading.Event()
 
-    t1.join()
-    t2.join()
+main_thread = threading.Thread(target=main_loop)
+stop_thread = threading.Thread(target=check_stop)
+management_thread = threading.Thread(target=management_tasks)
+cursor_thread = threading.Thread(target=spinning_cursor)
 
-if __name__ == "__main__":
-    main()
+main_thread.start()
+stop_thread.start()
+management_thread.start()
+cursor_thread.start()
+
+main_thread.join()
+stop_thread.join()
+management_thread.join()
+cursor_thread.join()
