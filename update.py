@@ -1,16 +1,20 @@
+# update.py
+
 import os
+import shutil
 
-# Add all files to the local Git repository
-os.system('git add .')
+# Rename log files to .xml if they exist
+if os.path.exists("Logs/update_log.txt"):
+    os.rename("Logs/update_log.txt", "Logs/update_log.xml")
 
-# Commit the changes with a message
-os.system('git commit -m "Update: Adding all files and folders"')
+if os.path.exists("Logs/error_log.txt"):
+    os.rename("Logs/error_log.txt", "Logs/error_log.xml")
 
-# Push the changes to GitHub
-os.system('git push origin main')
+# Git commands to add, commit, and push changes to GitHub
+os.system("git add .")
+os.system('git commit -m "Changed log files to XML format"')
+os.system("git push origin main")
 
-# Erasing the content of update.py after execution
-with open("update.py", "w") as f:
-    f.write("# This script has been executed and is now empty to prevent re-execution.\n")
+# Informing the user about the update completion
+print("Update completed! Log files have been changed to XML format and pushed to GitHub.")
 
-print("Update completed! Files and folders have been added, committed, and pushed to GitHub.")
