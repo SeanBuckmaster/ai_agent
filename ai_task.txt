@@ -1,0 +1,74 @@
+System Overview for GOAL Project Management:
+Files & Directories:
+ai_agent_requirements.txt:
+
+A summary of all requirements and details for future reference.
+goals.xml:
+
+Stores major projects and their details.
+ai_tasks.xml:
+
+Contains individual tasks for the AI to perform, generated from the goals.
+questions.xml:
+
+Holds questions queued for you, to be interacted with via turk.py.
+turk.xml:
+
+Contains Mechanical Turk actions or tasks that a human must perform.
+ai_error.xml:
+
+Logs errors with timestamps for review and resolution.
+q_and_a.xml:
+
+Stores previously asked and answered questions to avoid repetition.
+metrics.xml:
+
+Contains data for post-project analysis and AI self-improvement.
+Directories for Each GOAL:
+
+Each GOAL will have its own directory to manage related tasks, questions, and other relevant data.
+Scripts:
+main.py:
+
+Runs in a loop, executing AI tasks from ai_tasks.xml.
+Checks for dependencies and prerequisites before executing tasks.
+Generates questions and Turk tasks as needed, placing them in questions.xml and turk.xml respectively.
+Updates ai_error.xml and metrics.xml as needed.
+turk.py:
+
+Interactive script that communicates with you.
+Presents questions from questions.xml and tasks from turk.xml.
+Allows you to provide feedback and instructions in a free-form, conversational manner.
+Facilitates review and approval of AI-generated content and task outcomes.
+Enables you to modify and prioritize tasks and goals interactively.
+update.py:
+
+Manages updates to main.py and turk.py as needed by the system.
+Maintains versioning of scripts and facilitates review and confirmation of new versions.
+Workflow:
+AI Workflow:
+
+Continuously works through tasks in ai_tasks.xml using main.py.
+Generates questions and Turk tasks as needed during processing.
+Updates error logs and metrics during operation.
+Human Interaction (via turk.py):
+
+Interact to review and answer questions, provide feedback, and perform Turk tasks.
+Review and approve AI-generated content and task outcomes.
+Modify and prioritize tasks and goals interactively.
+Script Updating (via update.py):
+
+Updates scripts as needed, maintaining versioning.
+Facilitates review and confirmation of new script versions via Turk tasks and questions.
+Feedback Mechanism:
+
+Allows you to provide feedback on task outcomes and AI-generated content.
+AI utilizes feedback for continuous improvement.
+Review and Approval:
+
+AI-generated content and task outcomes are reviewed and approved interactively.
+Ensures quality and accuracy in outputs and subsequent tasks.
+Metrics & Improvement:
+The AI will track various metrics, such as task completion time, error rates, and feedback, to facilitate continuous improvement and provide insights during post-project analysis.
+
+
