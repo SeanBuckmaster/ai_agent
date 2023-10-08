@@ -1,18 +1,9 @@
 import os
 
-# Code to be written to ai_main.py
-code_to_write = """
+# Update the ai_main.py
+ai_main_code = """
 import threading
 import time
-import sys
-
-def spinning_cursor():
-    while not stop_event.is_set():
-        for cursor in '\\|/-':
-            sys.stdout.write(cursor)
-            sys.stdout.flush()
-            time.sleep(0.1)
-            sys.stdout.write('\\r')
 
 def main_loop():
     while not stop_event.is_set():
@@ -37,27 +28,25 @@ stop_event = threading.Event()
 main_thread = threading.Thread(target=main_loop)
 stop_thread = threading.Thread(target=check_stop)
 management_thread = threading.Thread(target=management_tasks)
-cursor_thread = threading.Thread(target=spinning_cursor)
+
+print("AI Main is running. Monitoring tasks and awaiting user input...")
 
 main_thread.start()
 stop_thread.start()
 management_thread.start()
-cursor_thread.start()
 
 main_thread.join()
 stop_thread.join()
 management_thread.join()
-cursor_thread.join()
 """
 
-# Writing the code to ai_main.py
 with open("ai_main.py", "w") as file:
-    file.write(code_to_write)
+    file.write(ai_main_code)
 
 # Git commands to add, commit, and push changes to GitHub
 os.system("git add .")
-os.system('git commit -m "Refined main loop and implemented ChatGPT usage"')
+os.system('git commit -m "Updated ai_main.py with non-intrusive running message"')
 os.system("git push origin main")
 
 # Informing the user about the update completion
-print("Update completed! ai_main.py has been updated with refined logic.")
+print("Update completed! ai_main.py has been updated and changes have been pushed to GitHub.")

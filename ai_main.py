@@ -1,15 +1,6 @@
 
 import threading
 import time
-import sys
-
-def spinning_cursor():
-    while not stop_event.is_set():
-        for cursor in '\|/-':
-            sys.stdout.write(cursor)
-            sys.stdout.flush()
-            time.sleep(0.1)
-            sys.stdout.write('\r')
 
 def main_loop():
     while not stop_event.is_set():
@@ -34,14 +25,13 @@ stop_event = threading.Event()
 main_thread = threading.Thread(target=main_loop)
 stop_thread = threading.Thread(target=check_stop)
 management_thread = threading.Thread(target=management_tasks)
-cursor_thread = threading.Thread(target=spinning_cursor)
+
+print("AI Main is running. Monitoring tasks and awaiting user input...")
 
 main_thread.start()
 stop_thread.start()
 management_thread.start()
-cursor_thread.start()
 
 main_thread.join()
 stop_thread.join()
 management_thread.join()
-cursor_thread.join()
