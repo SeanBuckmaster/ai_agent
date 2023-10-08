@@ -1,40 +1,29 @@
+# This script has been executed and is now empty to prevent re-execution.
 import os
-import shutil
 
 # Ensure to backup your project before running this script
 
-# Directories and files to organize and create
+# Directories to organize files
 directories = {
-    "BusinessLayer": ["ai_tasks.py", "ai_goals.py", "ai_errors.py"],
-    "DataLayer": ["ai_data_read.py", "ai_data_write.py"],
-    "PresentationLayer": ["ai_interface.py"],
-    "CommonLayer": ["ai_xml_read.py", "ai_xml_write.py"]
+    "VoiceCommands": [],
+    "TaskManagement": ["ai_tasks.py", "ai_goals.py"],
+    "UserInteraction": ["ai_interface.py"],
+    "APIInteraction": ["ai_chatgpt.py"],
+    "DataManagement": ["ai_data_read.py", "ai_data_write.py"],
+    "ErrorHandling": ["ai_errors.py"],
+    "Logging": [],
+    "Testing": [],
+    "Documentation": []
 }
 
-# Basic template for Python files
-python_template = """\"\"\"
-This is a template Python file for the AI Agent project.
-\"\"\"
-
-def main():
-    pass
-
-if __name__ == "__main__":
-    main()
-"""
-
-# Create directories and files
+# Create directories and move files
 for dir_name, files in directories.items():
     os.makedirs(dir_name, exist_ok=True)
     for file_name in files:
-        file_path = os.path.join(dir_name, file_name)
-        # Create file with basic template if it does not exist
-        if not os.path.exists(file_path):
-            with open(file_path, "w") as f:
-                f.write(python_template)
-            print(f"Created: {file_path}")
+        if os.path.exists(file_name):
+            os.rename(file_name, os.path.join(dir_name, file_name))
         else:
-            print(f"Exists: {file_path}")
+            print(f"Warning: {file_name} does not exist and was not moved.")
 
 # Initialize Git if not already done
 if not os.path.exists(".git"):
@@ -42,10 +31,10 @@ if not os.path.exists(".git"):
 
 # Committing the changes to Git
 os.system('git add .')
-os.system('git commit -m "Refactoring: Organized files into layers"')
+os.system('git commit -m "Refactoring: Organized files into modules"')
 
 # Erasing the content of update.py after execution
 with open("update.py", "w") as f:
     f.write("# This script has been executed and is now empty to prevent re-execution.\n")
 
-print("Update completed! Files have been organized into respective directories.")
+print("Update completed! Files have been organized into respective modules.")
