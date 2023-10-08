@@ -1,1 +1,1 @@
-<log><entry><timestamp>2023-10-08 15:53:10</timestamp><message>Log file created. Previous log files were deleted.</message></entry></log>
+<log><entry><timestamp>2023-10-08 15:53:10</timestamp><message>Log file created. Previous log files were deleted.</message></entry><entry><timestamp>2023-10-08 18:06:41</timestamp><message>Organized files and converted stop_flag to XML. Moved main_loop.py to BusinessLayer.</message></entry></log>

@@ -1,1 +1,1 @@
-<log><entry><timestamp>2023-10-08 15:53:10</timestamp><message>Error log file created. Previous error log files were deleted.</message></entry></log>
+<log><entry><timestamp>2023-10-08 15:53:10</timestamp><message>Error log file created. Previous error log files were deleted.</message></entry><entry><timestamp>2023-10-08 18:09:27</timestamp><message>main_loop.py does not exist in the root directory.</message></entry><entry><timestamp>2023-10-08 18:09:27</timestamp><message>ai_main.py is not importing main_loop.py from BusinessLayer.</message></entry></log>
