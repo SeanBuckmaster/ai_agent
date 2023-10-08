@@ -1,0 +1,1 @@
+Update completed! Logging paths have been updated in scripts.
